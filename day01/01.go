@@ -1,8 +1,6 @@
 package day01
 
-import (
-	"github.com/xduricai/aoc-2023/util"
-)
+import "github.com/xduricai/aoc-2023/util"
 
 const RUNE_TO_DIGIT_OFFSET = 48
 

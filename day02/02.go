@@ -1,10 +1,6 @@
 package day02
 
-import (
-	"strings"
-
-	"github.com/xduricai/aoc-2023/util"
-)
+import "github.com/xduricai/aoc-2023/util"
 
 const redMaxCount = 12
 const greenMaxCount = 13
@@ -45,13 +41,13 @@ func SumGamePowers() (int, error) {
 }
 
 func validateGame(game *string) bool {
-	start := strings.IndexRune(*game, ':')
+	start := nextIndexOfRune(game, ':')
 	remaining := (*game)[start:]
 
 	for len(remaining) > 0 {
 		remaining = remaining[2:]
 
-		nextSpace := strings.IndexRune(remaining, ' ')
+		nextSpace := nextIndexOfRune(&remaining, ' ')
 		num := remaining[:nextSpace]
 		count := parseInt(&num)
 		char := remaining[nextSpace+1]
@@ -80,7 +76,7 @@ func validateGame(game *string) bool {
 }
 
 func gamePower(game *string) int {
-	start := strings.IndexRune(*game, ':')
+	start := nextIndexOfRune(game, ':')
 	remaining := (*game)[start:]
 
 	redMax := 0
@@ -90,7 +86,7 @@ func gamePower(game *string) int {
 	for len(remaining) > 0 {
 		remaining = remaining[2:]
 
-		nextSpace := strings.IndexRune(remaining, ' ')
+		nextSpace := nextIndexOfRune(&remaining, ' ')
 		num := remaining[:nextSpace]
 		count := parseInt(&num)
 		char := remaining[nextSpace+1]
@@ -119,7 +115,7 @@ func gamePower(game *string) int {
 }
 
 func parseGameId(line *string) int {
-	idx := strings.IndexRune(*line, ':')
+	idx := nextIndexOfRune(line, ':')
 	num := (*line)[5:idx]
 	return parseInt(&num)
 }
@@ -138,4 +134,13 @@ func parseInt(input *string) int {
 	}
 
 	return sum
+}
+
+func nextIndexOfRune(input *string, target rune) int {
+	for i := range *input {
+		if rune((*input)[i]) == target {
+			return i
+		}
+	}
+	return -1
 }
