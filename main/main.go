@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/xduricai/aoc-2023/day01"
+	"github.com/xduricai/aoc-2023/day02"
 )
 
 func main() {
@@ -23,6 +24,9 @@ func main() {
 	case "1":
 		res1, err1 = day01.GetNumericCoordinates()
 		res2, err2 = day01.GetMixedCoordinates()
+	case "2":
+		res1, err1 = day02.SumValidGames()
+		res2, err2 = day02.SumGamePowers()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return

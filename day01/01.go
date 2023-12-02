@@ -7,8 +7,8 @@ import (
 const RUNE_TO_DIGIT_OFFSET = 48
 
 func GetNumericCoordinates() (int, error) {
-	fileId := "01-1"
-	coords, err := util.ReadLines(fileId)
+	id := "01-1"
+	coords, err := util.ReadLines(id)
 
 	if err != nil {
 		return *new(int), err
@@ -41,8 +41,8 @@ func GetNumericCoordinates() (int, error) {
 }
 
 func GetMixedCoordinates() (int, error) {
-	fileId := "01-2"
-	coords, err := util.ReadLines(fileId)
+	id := "01-2"
+	coords, err := util.ReadLines(id)
 
 	if err != nil {
 		return *new(int), err
