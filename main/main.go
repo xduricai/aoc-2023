@@ -6,6 +6,7 @@ import (
 
 	"github.com/xduricai/aoc-2023/day01"
 	"github.com/xduricai/aoc-2023/day02"
+	"github.com/xduricai/aoc-2023/day03"
 )
 
 func main() {
@@ -27,6 +28,9 @@ func main() {
 	case "2":
 		res1, err1 = day02.SumValidGames()
 		res2, err2 = day02.SumGamePowers()
+	case "3":
+		res1, err1 = day03.SumAllParts()
+		res2, err2 = day03.SumGearRatios()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return

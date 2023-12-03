@@ -2,8 +2,6 @@ package day01
 
 import "github.com/xduricai/aoc-2023/util"
 
-const RUNE_TO_DIGIT_OFFSET = 48
-
 func GetNumericCoordinates() (int, error) {
 	id := "01-1"
 	coords, err := util.ReadLines(id)
@@ -18,7 +16,7 @@ func GetNumericCoordinates() (int, error) {
 
 	for _, line := range coords {
 		for i := range line {
-			val = getCharacterValue(line[i])
+			val = util.ParseIntFromRune(line[i])
 			if val > 0 {
 				tens += val
 				break
@@ -27,7 +25,7 @@ func GetNumericCoordinates() (int, error) {
 
 		length := len(line)
 		for i := range line {
-			val = getCharacterValue(line[length-1-i])
+			val = util.ParseIntFromRune(line[length-1-i])
 			if val > 0 {
 				ones += val
 				break
@@ -52,7 +50,7 @@ func GetMixedCoordinates() (int, error) {
 
 	for _, line := range coords {
 		for i := range line {
-			val = getSubstringValue(line[i:], false)
+			val = parseNumberString(line[i:], false)
 			if val > 0 {
 				tens += val
 				break
@@ -61,7 +59,7 @@ func GetMixedCoordinates() (int, error) {
 
 		length := len(line)
 		for i := range line {
-			val = getSubstringValue(line[:length-i], true)
+			val = parseNumberString(line[:length-i], true)
 			if val > 0 {
 				ones += val
 				break
@@ -72,22 +70,13 @@ func GetMixedCoordinates() (int, error) {
 	return tens*10 + ones, nil
 }
 
-func getCharacterValue(b byte) int {
-	r := rune(b)
-	if r < '1' || r > '9' {
-		return 0
-	}
-
-	return int(r) - RUNE_TO_DIGIT_OFFSET
-}
-
-func getSubstringValue(str string, reverse bool) int {
+func parseNumberString(str string, reverse bool) int {
 	length := len(str)
 	var val int
 	if reverse {
-		val = getCharacterValue(str[length-1])
+		val = util.ParseIntFromRune(str[length-1])
 	} else {
-		val = getCharacterValue(str[0])
+		val = util.ParseIntFromRune(str[0])
 	}
 
 	if val > 0 {
