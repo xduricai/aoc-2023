@@ -170,19 +170,12 @@ func getNeighbors(row int, col int, height int, width int) []point {
 func getNumber(line *string, start int) int {
 	numStart := start
 	numEnd := start + 1
-	changed := true
 
-	for changed {
-		changed = false
-
-		if numStart > 0 && util.IsBDigit((*line)[numStart-1]) {
-			numStart--
-			changed = true
-		}
-		if numEnd < len(*line) && util.IsBDigit((*line)[numEnd]) {
-			numEnd++
-			changed = true
-		}
+	for numStart > 0 && util.IsBDigit((*line)[numStart-1]) {
+		numStart--
+	}
+	for numEnd < len(*line) && util.IsBDigit((*line)[numEnd]) {
+		numEnd++
 	}
 
 	num := (*line)[numStart:numEnd]
