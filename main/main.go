@@ -8,6 +8,8 @@ import (
 	"github.com/xduricai/aoc-2023/day02"
 	"github.com/xduricai/aoc-2023/day03"
 	"github.com/xduricai/aoc-2023/day04"
+	"github.com/xduricai/aoc-2023/day05"
+	"github.com/xduricai/aoc-2023/day06"
 )
 
 func main() {
@@ -35,6 +37,12 @@ func main() {
 	case "4":
 		res1, err1 = day04.GetTotalPoints()
 		res2, err2 = day04.GetTotalCards()
+	case "5":
+		res1, err1 = day05.Sum()
+		res2, err2 = day05.Sum()
+	case "6":
+		res1, err1 = day06.CountMultipleRaces()
+		res2, err2 = day06.CountSingleRace()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return

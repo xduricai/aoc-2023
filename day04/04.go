@@ -63,8 +63,8 @@ func countWinningNumbers(input *string) int {
 	winning := (*input)[start:separator]
 	ours := (*input)[separator+1:]
 
-	winningNums := parseNumbers(&winning)
-	ourNums := parseNumbers(&ours)
+	winningNums := util.ParseNumbersFromString(&winning)
+	ourNums := util.ParseNumbersFromString(&ours)
 
 	for _, num := range winningNums {
 		numMap[num] = true
@@ -76,33 +76,4 @@ func countWinningNumbers(input *string) int {
 	}
 
 	return correct
-}
-
-func parseNumbers(input *string) []string {
-	numbers := []string{}
-
-	numStart := -1
-	numEnd := -1
-
-	for idx, char := range *input {
-		if util.IsDigit(char) {
-			if numStart < 0 {
-				numStart = idx
-			}
-			numEnd = idx + 1
-			continue
-		}
-		if numStart == -1 {
-			continue
-		}
-
-		numbers = append(numbers, (*input)[numStart:numEnd])
-		numStart = -1
-		numEnd = -1
-	}
-	if numStart > -1 {
-		numbers = append(numbers, (*input)[numStart:numEnd])
-	}
-
-	return numbers
 }
