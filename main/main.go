@@ -11,6 +11,7 @@ import (
 	"github.com/xduricai/aoc-2023/day05"
 	"github.com/xduricai/aoc-2023/day06"
 	"github.com/xduricai/aoc-2023/day07"
+	"github.com/xduricai/aoc-2023/day08"
 )
 
 func main() {
@@ -47,6 +48,9 @@ func main() {
 	case "7":
 		res1, err1 = day07.RankHands(false)
 		res2, err2 = day07.RankHands(true)
+	case "8":
+		res1, err1 = day08.FindSinglePath()
+		res2, err2 = day08.FindMultiplePaths()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return
