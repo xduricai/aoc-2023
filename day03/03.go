@@ -15,7 +15,7 @@ func newPoint(row int, col int) *point {
 }
 
 func SumAllParts() (int, error) {
-	id := "03-1"
+	id := "03"
 	lines, err := util.ReadLines(id)
 
 	if err != nil {
@@ -69,7 +69,7 @@ func SumAllParts() (int, error) {
 }
 
 func SumGearRatios() (int, error) {
-	id := "03-2"
+	id := "03"
 	lines, err := util.ReadLines(id)
 
 	if err != nil {

@@ -10,6 +10,7 @@ import (
 	"github.com/xduricai/aoc-2023/day04"
 	"github.com/xduricai/aoc-2023/day05"
 	"github.com/xduricai/aoc-2023/day06"
+	"github.com/xduricai/aoc-2023/day07"
 )
 
 func main() {
@@ -43,6 +44,9 @@ func main() {
 	case "6":
 		res1, err1 = day06.CountMultipleRaces()
 		res2, err2 = day06.CountSingleRace()
+	case "7":
+		res1, err1 = day07.RankHands(false)
+		res2, err2 = day07.RankHands(true)
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return

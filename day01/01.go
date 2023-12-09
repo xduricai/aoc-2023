@@ -3,7 +3,7 @@ package day01
 import "github.com/xduricai/aoc-2023/util"
 
 func GetNumericCoordinates() (int, error) {
-	id := "01-1"
+	id := "01"
 	coords, err := util.ReadLines(id)
 
 	if err != nil {
@@ -37,7 +37,7 @@ func GetNumericCoordinates() (int, error) {
 }
 
 func GetMixedCoordinates() (int, error) {
-	id := "01-2"
+	id := "01"
 	coords, err := util.ReadLines(id)
 
 	if err != nil {

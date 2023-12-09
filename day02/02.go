@@ -7,7 +7,7 @@ const greenMaxCount = 13
 const blueMaxCount = 14
 
 func SumValidGames() (int, error) {
-	id := "02-1"
+	id := "02"
 	games, err := util.ReadLines(id)
 
 	if err != nil {
@@ -25,7 +25,7 @@ func SumValidGames() (int, error) {
 }
 
 func SumGamePowers() (int, error) {
-	id := "02-2"
+	id := "02"
 	games, err := util.ReadLines(id)
 
 	if err != nil {

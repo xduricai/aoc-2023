@@ -3,7 +3,7 @@ package day04
 import "github.com/xduricai/aoc-2023/util"
 
 func GetTotalPoints() (int, error) {
-	id := "04-1"
+	id := "04"
 	cards, err := util.ReadLines(id)
 
 	if err != nil {
@@ -28,7 +28,7 @@ func GetTotalPoints() (int, error) {
 }
 
 func GetTotalCards() (int, error) {
-	id := "04-2"
+	id := "04"
 	cards, err := util.ReadLines(id)
 
 	if err != nil {
