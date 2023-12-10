@@ -13,6 +13,7 @@ import (
 	"github.com/xduricai/aoc-2023/day07"
 	"github.com/xduricai/aoc-2023/day08"
 	"github.com/xduricai/aoc-2023/day09"
+	"github.com/xduricai/aoc-2023/day10"
 )
 
 func main() {
@@ -22,8 +23,8 @@ func main() {
 	}
 
 	day := os.Args[1]
-	var res1 any
-	var res2 any
+	var res1 int
+	var res2 int
 	var err1 error
 	var err2 error
 
@@ -55,6 +56,8 @@ func main() {
 	case "9":
 		res1, err1 = day09.Run()
 		//res2, err2 = day09.Run()
+	case "10":
+		err1 = day10.Run()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return
@@ -70,7 +73,7 @@ func main() {
 		return
 	}
 
-	fmt.Printf("DAY %s:\n", day)
+	fmt.Printf("\n\n\n\n\nDAY %s:\n", day)
 	fmt.Printf("    Part 1: %v\n", res1)
 	fmt.Printf("    Part 2: %v\n", res2)
 }
