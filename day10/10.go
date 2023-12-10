@@ -31,6 +31,25 @@ var movesFrom = [7][]int{
 	{0, 1, 2, 3},
 }
 
+func getMoveIndex(char rune) int {
+	switch char {
+	case '|':
+		return 0
+	case '-':
+		return 1
+	case 'F':
+		return 2
+	case '7':
+		return 3
+	case 'L':
+		return 4
+	case 'J':
+		return 5
+	default:
+		return 6
+	}
+}
+
 func Run() error {
 	id := "10"
 	maze, err := util.ReadLines(id)
@@ -90,6 +109,7 @@ func countInnerTiles(maze *[]string, path *[][2]int) int {
 		vertrices = append(vertrices, point)
 	}
 
+	// odd number of vertrices = S is a vertex
 	if len(vertrices)%2 == 1 {
 		vertrices = append(vertrices, (*path)[0])
 	}
@@ -105,25 +125,6 @@ func countInnerTiles(maze *[]string, path *[][2]int) int {
 	area /= 2
 
 	return area - (len(*path) / 2) + 1
-}
-
-func getMoveIndex(char rune) int {
-	switch char {
-	case '|':
-		return 0
-	case '-':
-		return 1
-	case 'F':
-		return 2
-	case '7':
-		return 3
-	case 'L':
-		return 4
-	case 'J':
-		return 5
-	default:
-		return 6
-	}
 }
 
 func dfs(x, y, direction int, path *[][2]int, maze *[]string, visited *[][]bool) bool {
