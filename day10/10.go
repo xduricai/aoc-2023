@@ -62,7 +62,7 @@ func solve(maze *[]string) (int, int, time.Duration, time.Duration) {
 			break
 		}
 	}
-	path := make([][2]int, 0, 1000)
+	path := [][2]int{}
 
 	start1 := time.Now()
 	dfs(startX, startY, 0, &path, maze, &visited)
