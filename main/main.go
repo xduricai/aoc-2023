@@ -12,6 +12,7 @@ import (
 	"github.com/xduricai/aoc-2023/day06"
 	"github.com/xduricai/aoc-2023/day07"
 	"github.com/xduricai/aoc-2023/day08"
+	"github.com/xduricai/aoc-2023/day09"
 )
 
 func main() {
@@ -51,6 +52,9 @@ func main() {
 	case "8":
 		res1, err1 = day08.FindSinglePath()
 		res2, err2 = day08.FindMultiplePaths()
+	case "9":
+		res1, err1 = day09.Run()
+		//res2, err2 = day09.Run()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return

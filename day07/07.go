@@ -23,7 +23,7 @@ type Hand struct {
 	bid   int
 }
 
-func (hand *Hand) Compare(input *Hand) int {
+func (hand *Hand) compare(input *Hand) int {
 	for idx := range (*input).cards {
 		a := rune((*hand).cards[idx])
 		b := rune((*input).cards[idx])

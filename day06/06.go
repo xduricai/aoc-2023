@@ -24,7 +24,7 @@ func CountMultipleRaces() (int, error) {
 		b := float64(0 - times[idx])
 		c := float64(distances[idx])
 
-		x1, x2 := solveQuadraticEquation(a, b, c)
+		x1, x2 := util.SolveQuadraticEquation(a, b, c)
 		res := int(math.Floor(x2)) - int(math.Floor(x1))
 
 		if total > 0 {
@@ -60,17 +60,7 @@ func CountSingleRace() (int, error) {
 	b := float64(0 - util.ParseIntFromString(&totalTime))
 	c := float64(util.ParseIntFromString(&totalDistance))
 
-	x1, x2 := solveQuadraticEquation(a, b, c)
+	x1, x2 := util.SolveQuadraticEquation(a, b, c)
 	res := int(math.Floor(x2)) - int(math.Floor(x1))
 	return res, nil
-}
-
-// expects the discriminant to be non-negative
-func solveQuadraticEquation(a float64, b float64, c float64) (float64, float64) {
-	d := math.Pow(float64(b), 2) - (4 * a * c)
-
-	x1 := (-b - math.Sqrt(d)) / (2 * a)
-	x2 := (-b + math.Sqrt(d)) / (2 * a)
-
-	return x1, x2
 }

@@ -15,7 +15,7 @@ func partition(slice []Hand, low int, high int) int {
 	idx := low - 1
 
 	for i := low; i < high; i++ {
-		if slice[i].Compare(&pivot) < 0 {
+		if slice[i].compare(&pivot) < 0 {
 			idx++
 			slice[i], slice[idx] = slice[idx], slice[i]
 		}
