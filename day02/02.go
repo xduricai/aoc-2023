@@ -1,42 +1,42 @@
 package day02
 
-import "github.com/xduricai/aoc-2023/util"
+import (
+	"time"
+
+	"github.com/xduricai/aoc-2023/util"
+)
 
 const redMaxCount = 12
 const greenMaxCount = 13
 const blueMaxCount = 14
 
-func SumValidGames() (int, error) {
+func Run() error {
 	id := "02"
-	games, err := util.ReadLines(id)
+	lines, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
 
-	var sum int
-	for _, line := range games {
-		id := parseGameId(&line)
-		if validateGame(&line) {
-			sum += id
-		}
-	}
-	return sum, nil
+	start := time.Now()
+	part1, part2 := sumGames(&lines)
+	time1 := time.Since(start)
+
+	util.PrintResults(id, part1, part2, time1, time1)
+	return nil
 }
 
-func SumGamePowers() (int, error) {
-	id := "02"
-	games, err := util.ReadLines(id)
-
-	if err != nil {
-		return *new(int), err
+func sumGames(games *[]string) (int, int) {
+	var gamesSum int
+	var powersSum int
+	for _, line := range *games {
+		id := parseGameId(&line)
+		if validateGame(&line) {
+			gamesSum += id
+		}
+		powersSum += gamePower(&line)
 	}
-
-	var sum int
-	for _, line := range games {
-		sum += gamePower(&line)
-	}
-	return sum, nil
+	return gamesSum, powersSum
 }
 
 func validateGame(game *string) bool {

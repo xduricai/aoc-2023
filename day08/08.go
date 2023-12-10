@@ -1,6 +1,8 @@
 package day08
 
 import (
+	"time"
+
 	"github.com/xduricai/aoc-2023/util"
 )
 
@@ -16,16 +18,30 @@ func newNode(left *string, right *string) *Node {
 	}
 }
 
-func FindSinglePath() (int, error) {
+func Run() error {
 	id := "08"
 	lines, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
 
-	path := lines[0]
-	lines = lines[2:]
+	start1 := time.Now()
+	part1 := findSinglePath(&lines)
+	time1 := time.Since(start1)
+
+	start2 := time.Now()
+	part2 := FindMultiplePaths(&lines)
+	time2 := time.Since(start2)
+
+	util.PrintResults(id, part1, part2, time1, time2)
+
+	return nil
+}
+
+func findSinglePath(input *[]string) int {
+	path := (*input)[0]
+	lines := (*input)[2:]
 	nodeMap := map[string]Node{}
 
 	for _, line := range lines {
@@ -40,19 +56,12 @@ func FindSinglePath() (int, error) {
 		return *node == "ZZZ"
 	}
 
-	return findPath(&start, &path, &nodeMap, isTarget), nil
+	return findPath(&start, &path, &nodeMap, isTarget)
 }
 
-func FindMultiplePaths() (int, error) {
-	id := "08"
-	lines, err := util.ReadLines(id)
-
-	if err != nil {
-		return *new(int), err
-	}
-
-	path := lines[0]
-	lines = lines[2:]
+func FindMultiplePaths(input *[]string) int {
+	path := (*input)[0]
+	lines := (*input)[2:]
 	nodeMap := map[string]Node{}
 	starts := []string{}
 	results := []int{}
@@ -78,9 +87,9 @@ func FindMultiplePaths() (int, error) {
 
 	count := len(results)
 	if count == 1 {
-		return results[0], nil
+		return results[0]
 	}
-	return util.LCM(results[0], results[1], results[2:]...), nil
+	return util.LCM(results[0], results[1], results[2:]...)
 }
 
 func findPath(start *string, path *string, nodeMap *map[string]Node, isTarget func(*string) bool) int {

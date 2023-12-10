@@ -1,20 +1,37 @@
 package day01
 
-import "github.com/xduricai/aoc-2023/util"
+import (
+	"time"
 
-func GetNumericCoordinates() (int, error) {
+	"github.com/xduricai/aoc-2023/util"
+)
+
+func Run() error {
 	id := "01"
-	coords, err := util.ReadLines(id)
+	lines, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
 
+	start1 := time.Now()
+	part1 := getNumericCoordinates(&lines)
+	time1 := time.Since(start1)
+
+	start2 := time.Now()
+	part2 := getMixedCoordinates(&lines)
+	time2 := time.Since(start2)
+
+	util.PrintResults(id, part1, part2, time1, time2)
+	return nil
+}
+
+func getNumericCoordinates(coords *[]string) int {
 	var tens int = 0
 	var ones int = 0
 	var val int = 0
 
-	for _, line := range coords {
+	for _, line := range *coords {
 		for i := range line {
 			val = util.ParseIntFromRune(line[i])
 			if val > 0 {
@@ -33,22 +50,15 @@ func GetNumericCoordinates() (int, error) {
 		}
 	}
 
-	return tens*10 + ones, nil
+	return tens*10 + ones
 }
 
-func GetMixedCoordinates() (int, error) {
-	id := "01"
-	coords, err := util.ReadLines(id)
-
-	if err != nil {
-		return *new(int), err
-	}
-
+func getMixedCoordinates(coords *[]string) int {
 	var tens int = 0
 	var ones int = 0
 	var val int = 0
 
-	for _, line := range coords {
+	for _, line := range *coords {
 		for i := range line {
 			val = parseNumberString(line[i:], false)
 			if val > 0 {
@@ -67,7 +77,7 @@ func GetMixedCoordinates() (int, error) {
 		}
 	}
 
-	return tens*10 + ones, nil
+	return tens*10 + ones
 }
 
 func parseNumberString(str string, reverse bool) int {

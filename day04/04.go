@@ -1,19 +1,36 @@
 package day04
 
-import "github.com/xduricai/aoc-2023/util"
+import (
+	"time"
 
-func GetTotalPoints() (int, error) {
+	"github.com/xduricai/aoc-2023/util"
+)
+
+func Run() error {
 	id := "04"
-	cards, err := util.ReadLines(id)
+	lines, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
 
+	start1 := time.Now()
+	part1 := getTotalPoints(&lines)
+	time1 := time.Since(start1)
+
+	start2 := time.Now()
+	part2 := getTotalCards(&lines)
+	time2 := time.Since(start2)
+
+	util.PrintResults(id, part1, part2, time1, time2)
+	return nil
+}
+
+func getTotalPoints(cards *[]string) int {
 	pointValues := []int{0, 1}
 	var points int
 
-	for _, card := range cards {
+	for _, card := range *cards {
 		correct := countWinningNumbers(&card)
 
 		for len(pointValues) <= correct {
@@ -24,24 +41,17 @@ func GetTotalPoints() (int, error) {
 		points += pointValues[correct]
 	}
 
-	return points, nil
+	return points
 }
 
-func GetTotalCards() (int, error) {
-	id := "04"
-	cards, err := util.ReadLines(id)
-
-	if err != nil {
-		return *new(int), err
-	}
-
+func getTotalCards(cards *[]string) int {
 	var count int
-	cardQuantities := make([]int, len(cards))
+	cardQuantities := make([]int, len(*cards))
 	for i := range cardQuantities {
 		cardQuantities[i] = 1
 	}
 
-	for idx, card := range cards {
+	for idx, card := range *cards {
 		correct := countWinningNumbers(&card)
 
 		for i := 1; i <= correct; i++ {
@@ -50,7 +60,7 @@ func GetTotalCards() (int, error) {
 		count += cardQuantities[idx]
 	}
 
-	return count, nil
+	return count
 }
 
 func countWinningNumbers(input *string) int {

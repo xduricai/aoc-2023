@@ -23,57 +23,35 @@ func main() {
 	}
 
 	day := os.Args[1]
-	var res1 int
-	var res2 int
-	var err1 error
-	var err2 error
+	var err error
 
 	switch day {
 	case "1":
-		res1, err1 = day01.GetNumericCoordinates()
-		res2, err2 = day01.GetMixedCoordinates()
+		err = day01.Run()
 	case "2":
-		res1, err1 = day02.SumValidGames()
-		res2, err2 = day02.SumGamePowers()
+		err = day02.Run()
 	case "3":
-		res1, err1 = day03.SumAllParts()
-		res2, err2 = day03.SumGearRatios()
+		err = day03.Run()
 	case "4":
-		res1, err1 = day04.GetTotalPoints()
-		res2, err2 = day04.GetTotalCards()
+		err = day04.Run()
 	case "5":
-		res1, err1 = day05.Sum()
-		res2, err2 = day05.Sum()
+		err = day05.Run()
 	case "6":
-		res1, err1 = day06.CountMultipleRaces()
-		res2, err2 = day06.CountSingleRace()
+		err = day06.Run()
 	case "7":
-		res1, err1 = day07.RankHands(false)
-		res2, err2 = day07.RankHands(true)
+		err = day07.Run()
 	case "8":
-		res1, err1 = day08.FindSinglePath()
-		res2, err2 = day08.FindMultiplePaths()
+		err = day08.Run()
 	case "9":
-		res1, err1 = day09.Run()
-		//res2, err2 = day09.Run()
+		err = day09.Run()
 	case "10":
-		err1 = day10.Run()
+		err = day10.Run()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return
 	}
 
-	if err1 != nil {
-		fmt.Println("An error occurred while running part 1.")
+	if err != nil {
+		fmt.Println("An error occurred while loading data.")
 	}
-	if err2 != nil {
-		fmt.Println("An error occurred while running part 2.")
-	}
-	if err1 != nil || err2 != nil {
-		return
-	}
-
-	fmt.Printf("\n\n\n\n\nDAY %s:\n", day)
-	fmt.Printf("    Part 1: %v\n", res1)
-	fmt.Printf("    Part 2: %v\n", res2)
 }

@@ -1,6 +1,10 @@
 package day03
 
-import "github.com/xduricai/aoc-2023/util"
+import (
+	"time"
+
+	"github.com/xduricai/aoc-2023/util"
+)
 
 type point struct {
 	row int
@@ -14,19 +18,32 @@ func newPoint(row int, col int) *point {
 	}
 }
 
-func SumAllParts() (int, error) {
+func Run() error {
 	id := "03"
 	lines, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
 
-	var sum int
-	height := len(lines)
-	width := len(lines[0])
+	start1 := time.Now()
+	part1 := sumAllParts(&lines)
+	time1 := time.Since(start1)
 
-	for lineIdx, line := range lines {
+	start2 := time.Now()
+	part2 := sumGearRatios(&lines)
+	time2 := time.Since(start2)
+
+	util.PrintResults(id, part1, part2, time1, time2)
+	return nil
+}
+
+func sumAllParts(lines *[]string) int {
+	var sum int
+	height := len(*lines)
+	width := len((*lines)[0])
+
+	for lineIdx, line := range *lines {
 		numStart := -1
 		numEnd := -1
 		validPart := false
@@ -40,7 +57,7 @@ func SumAllParts() (int, error) {
 
 				neighbors := getNeighbors(lineIdx, idx, height, width)
 				for _, p := range neighbors {
-					c := rune(lines[p.row][p.col])
+					c := rune((*lines)[p.row][p.col])
 					if !util.IsDigit(c) && c != '.' {
 						validPart = true
 					}
@@ -65,22 +82,15 @@ func SumAllParts() (int, error) {
 			sum += util.ParseIntFromString(&num)
 		}
 	}
-	return sum, nil
+	return sum
 }
 
-func SumGearRatios() (int, error) {
-	id := "03"
-	lines, err := util.ReadLines(id)
-
-	if err != nil {
-		return *new(int), err
-	}
-
+func sumGearRatios(lines *[]string) int {
 	var sum int
-	height := len(lines)
-	width := len(lines[0])
+	height := len(*lines)
+	width := len((*lines)[0])
 
-	for lineIdx, line := range lines {
+	for lineIdx, line := range *lines {
 		for idx := range line {
 			if rune(line[idx]) != '*' {
 				continue
@@ -88,7 +98,7 @@ func SumGearRatios() (int, error) {
 			numbers := []int{}
 
 			if lineIdx > 0 {
-				top := lines[lineIdx-1]
+				top := (*lines)[lineIdx-1]
 
 				if util.IsBDigit(top[idx]) {
 					numbers = append(numbers, getNumber(&top, idx))
@@ -103,7 +113,7 @@ func SumGearRatios() (int, error) {
 			}
 
 			if lineIdx+1 < height {
-				bot := lines[lineIdx+1]
+				bot := (*lines)[lineIdx+1]
 
 				if util.IsBDigit(bot[idx]) {
 					numbers = append(numbers, getNumber(&bot, idx))
@@ -129,7 +139,7 @@ func SumGearRatios() (int, error) {
 			}
 		}
 	}
-	return sum, nil
+	return sum
 }
 
 func getNeighbors(row int, col int, height int, width int) []point {

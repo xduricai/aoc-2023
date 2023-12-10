@@ -2,15 +2,23 @@ package day09
 
 import "github.com/xduricai/aoc-2023/util"
 
-func Run() (int, error) {
+func Run() error {
 	id := "09"
 	_, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
 
-	var sum int
+	// start1 := time.Now()
+	// part1 := (&lines)
+	// time1 := time.Since(start1)
 
-	return sum, nil
+	// start2 := time.Now()
+	// part2 := (&lines)
+	// time2 := time.Since(start2)
+
+	// util.PrintResults(id, part1, part2, time1, time2)
+
+	return nil
 }

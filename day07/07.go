@@ -1,6 +1,10 @@
 package day07
 
-import "github.com/xduricai/aoc-2023/util"
+import (
+	"time"
+
+	"github.com/xduricai/aoc-2023/util"
+)
 
 var cardValueMap = map[rune]int{
 	'A': 14,
@@ -44,13 +48,28 @@ func newHand(cards *string, value int, bid int) *Hand {
 	}
 }
 
-func RankHands(jokers bool) (int, error) {
+func Run() error {
 	id := "07"
 	lines, err := util.ReadLines(id)
 
 	if err != nil {
-		return *new(int), err
+		return err
 	}
+
+	start1 := time.Now()
+	part1 := rankHands(false, &lines)
+	time1 := time.Since(start1)
+
+	start2 := time.Now()
+	part2 := rankHands(true, &lines)
+	time2 := time.Since(start2)
+
+	util.PrintResults(id, part1, part2, time1, time2)
+
+	return nil
+}
+
+func rankHands(jokers bool, lines *[]string) int {
 	if jokers {
 		cardValueMap['J'] = 1
 	} else {
@@ -59,7 +78,7 @@ func RankHands(jokers bool) (int, error) {
 
 	handSets := [7][]Hand{}
 
-	for _, line := range lines {
+	for _, line := range *lines {
 		var value int
 		cards := line[:5]
 		bid := line[6:]
@@ -88,7 +107,7 @@ func RankHands(jokers bool) (int, error) {
 		}
 	}
 
-	return sum, nil
+	return sum
 }
 
 func getHandValue(hand *string) int {
