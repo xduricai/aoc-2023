@@ -103,7 +103,7 @@ func countInnerTiles(vertrices *[][2]int, path *[][2]int) int {
 }
 
 func inBounds(x, y, width, height int) bool {
-	return x > 0 && y > 0 && x < width && y < height
+	return x >= 0 && y >= 0 && x < width && y < height
 }
 
 func nextDirection(c rune, dir int) int {
