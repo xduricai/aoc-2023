@@ -6,50 +6,6 @@ import (
 	"github.com/xduricai/aoc-2023/util"
 )
 
-// 0 = UP, 1 = RIGHT, 2 = DOWN, 3 = LEFT
-var directions = [4][2]int{
-	{0, -1},
-	{1, 0},
-	{0, 1},
-	{-1, 0},
-}
-
-var movesTo = [4][4]rune{
-	{'F', '7', '|', 'S'},
-	{'7', 'J', '-', 'S'},
-	{'L', 'J', '|', 'S'},
-	{'F', 'L', '-', 'S'},
-}
-
-var movesFrom = [7][]int{
-	{0, 2},
-	{1, 3},
-	{1, 2},
-	{2, 3},
-	{0, 1},
-	{0, 3},
-	{0, 1, 2, 3},
-}
-
-func getMoveIndex(char rune) int {
-	switch char {
-	case '|':
-		return 0
-	case '-':
-		return 1
-	case 'F':
-		return 2
-	case '7':
-		return 3
-	case 'L':
-		return 4
-	case 'J':
-		return 5
-	default:
-		return 6
-	}
-}
-
 func Run() error {
 	id := "10"
 	maze, err := util.ReadLines(id)
@@ -58,20 +14,31 @@ func Run() error {
 		return err
 	}
 
-	part1, part2, time1, time2 := solve(&maze)
+	start1 := time.Now()
+	part1, path, vertrices := findLoop(&maze)
+	time1 := time.Since(start1)
+
+	start2 := time.Now()
+	part2 := countInnerTiles(&vertrices, &path)
+	time2 := time.Since(start2)
+
 	util.PrintResults(id, part1, part2, time1, time2)
+
 	return nil
 }
 
-func solve(maze *[]string) (int, int, time.Duration, time.Duration) {
+// 0 = UP, 1 = RIGHT, 2 = DOWN, 3 = LEFT
+var directions = [4][2]int{
+	{0, -1},
+	{1, 0},
+	{0, 1},
+	{-1, 0},
+}
+
+func findLoop(maze *[]string) (int, [][2]int, [][2]int) {
 	var startX, startY int
 	height := len(*maze)
 	width := len((*maze)[0])
-	visited := make([][]bool, height)
-
-	for i := 0; i < height; i++ {
-		visited[i] = make([]bool, width)
-	}
 
 	for row, line := range *maze {
 		col := util.IndexOfRune(&line, 'S')
@@ -81,43 +48,51 @@ func solve(maze *[]string) (int, int, time.Duration, time.Duration) {
 			break
 		}
 	}
+
 	path := [][2]int{}
-
-	start1 := time.Now()
-	dfs(startX, startY, 0, &path, maze, &visited)
-	farthest := len(path) / 2
-	time1 := time.Since(start1)
-
-	start2 := time.Now()
-	inner := countInnerTiles(maze, &path)
-	time2 := time.Since(start2)
-
-	return farthest, inner, time1, time2
-}
-
-func countInnerTiles(maze *[]string, path *[][2]int) int {
-	var area int
 	vertrices := [][2]int{}
+	for i := range directions {
+		path = [][2]int{}
+		vertrices = [][2]int{}
+		x := startX
+		y := startY
 
-	var point [2]int
-	for idx := 1; idx < len(*path); idx++ {
-		point = (*path)[idx]
-
-		if idx == 0 || (*maze)[point[1]][point[0]] == '|' || (*maze)[point[1]][point[0]] == '-' {
+		if !inBounds(x+directions[i][0], y+directions[i][1], width, height) {
 			continue
 		}
-		vertrices = append(vertrices, point)
-	}
 
-	// odd number of vertrices = S is a vertex
-	if len(vertrices)%2 == 1 {
-		vertrices = append(vertrices, (*path)[0])
-	}
+		dir := i
+		current := 'X'
 
-	previous := vertrices[len(vertrices)-1]
+		for dir != -1 && current != 'S' {
+			dir = nextDirection(rune(current), dir)
+			x += directions[dir][0]
+			y += directions[dir][1]
+			current = rune((*maze)[y][x])
+
+			if current == 'F' || current == '7' || current == 'L' || current == 'J' {
+				vertrices = append(vertrices, [2]int{x, y})
+			}
+			path = append(path, [2]int{x, y})
+		}
+
+		if current == 'S' {
+			if len(vertrices)%2 == 1 {
+				vertrices = append(vertrices, [2]int{x, y})
+			}
+			return len(path) / 2, path, vertrices
+		}
+	}
+	return 0, nil, nil
+}
+
+func countInnerTiles(vertrices *[][2]int, path *[][2]int) int {
+	var area int
+
+	previous := (*vertrices)[len(*vertrices)-1]
 	current := previous
 
-	for _, point := range vertrices {
+	for _, point := range *vertrices {
 		previous = current
 		current = point
 		area += ((previous[1] * current[0]) - (previous[0] * current[1]))
@@ -127,48 +102,40 @@ func countInnerTiles(maze *[]string, path *[][2]int) int {
 	return area - (len(*path) / 2) + 1
 }
 
-func dfs(x, y, direction int, path *[][2]int, maze *[]string, visited *[][]bool) bool {
-	// out of bounds check
-	if x < 0 || y < 0 || x >= len((*maze)[0]) || y >= len(*maze) {
-		return false
-	}
+func inBounds(x, y, width, height int) bool {
+	return x > 0 && y > 0 && x < width && y < height
+}
 
-	current := rune((*maze)[y][x])
-	// no path
-	if current == '.' {
-		return false
-	}
-	// loop found
-	if current == 'S' && len(*path) > 1 {
-		return true
-	}
-	if (*visited)[y][x] {
-		return false
-	}
+func nextDirection(c rune, dir int) int {
 
-	valid := false
-	for _, move := range movesTo[direction] {
-		if move == current {
-			valid = true
-			break
-		}
+	switch {
+	case c == '|' && dir == 0:
+		return 0
+	case c == '|' && dir == 2:
+		return 2
+	case c == '-' && dir == 1:
+		return 1
+	case c == '-' && dir == 3:
+		return 3
+	case c == 'F' && dir == 0:
+		return 1
+	case c == 'F' && dir == 3:
+		return 2
+	case c == '7' && dir == 0:
+		return 3
+	case c == '7' && dir == 1:
+		return 2
+	case c == 'L' && dir == 2:
+		return 1
+	case c == 'L' && dir == 3:
+		return 0
+	case c == 'J' && dir == 1:
+		return 0
+	case c == 'J' && dir == 2:
+		return 3
+	case c == 'X':
+		return dir
+	default:
+		return -1
 	}
-	if !valid {
-		return false
-	}
-
-	(*visited)[y][x] = true
-	*path = append(*path, [2]int{x, y})
-
-	for _, idx := range movesFrom[getMoveIndex(current)] {
-		dir := directions[idx]
-
-		result := dfs(x+dir[0], y+dir[1], idx, path, maze, visited)
-		if result {
-			return true
-		}
-	}
-	*path = (*path)[:len(*path)-1]
-
-	return false
 }
