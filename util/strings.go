@@ -82,3 +82,20 @@ func IndexOfRune(input *string, target rune) int {
 	}
 	return -1
 }
+
+func Transpose(input *[]string) []string {
+	width := len((*input)[0])
+	height := len(*input)
+	output := make([]string, width)
+
+	for col := 0; col < width; col++ {
+		line := make([]byte, height)
+
+		for row := 0; row < height; row++ {
+			line[row] = (*input)[row][col]
+		}
+		output[col] = string(line)
+	}
+
+	return output
+}
