@@ -32,6 +32,9 @@ func ParseIntFromString(input *string) int {
 		}
 		multiplier *= 10
 	}
+	if (*input)[0] == '-' {
+		return -sum
+	}
 	return sum
 }
 
@@ -52,7 +55,7 @@ func ParseNumbersFromString(input *string) []string {
 	numEnd := -1
 
 	for idx, char := range *input {
-		if IsDigit(char) {
+		if IsDigit(char) || char == '-' {
 			if numStart < 0 {
 				numStart = idx
 			}
