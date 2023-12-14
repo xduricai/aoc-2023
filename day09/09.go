@@ -69,7 +69,6 @@ func extrapolateValues(lines *[]string, newValues bool) int {
 				negative = !negative
 			}
 		}
-
 		sum += final
 	}
 
