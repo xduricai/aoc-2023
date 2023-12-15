@@ -18,6 +18,7 @@ import (
 	"github.com/xduricai/aoc-2023/day12"
 	"github.com/xduricai/aoc-2023/day13"
 	"github.com/xduricai/aoc-2023/day14"
+	"github.com/xduricai/aoc-2023/day15"
 )
 
 func main() {
@@ -58,6 +59,8 @@ func main() {
 		err = day13.Run()
 	case "14":
 		err = day14.Run()
+	case "15":
+		err = day15.Run()
 	default:
 		fmt.Printf("Day %s not recognized.", day)
 		return
