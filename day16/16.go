@@ -6,13 +6,6 @@ import (
 	"github.com/xduricai/aoc-2023/util"
 )
 
-var directions = [4][2]int{
-	{0, -1},
-	{1, 0},
-	{0, 1},
-	{-1, 0},
-}
-
 func Run() error {
 	id := "16"
 	lines, err := util.ReadLines(id)
@@ -34,8 +27,14 @@ func Run() error {
 	return nil
 }
 
+var directions = [4][2]int{
+	{0, -1},
+	{1, 0},
+	{0, 1},
+	{-1, 0},
+}
+
 func countActive(lines *[]string, startX int, startY int, startDir int) int {
-	var sum int
 	height := len(*lines)
 	width := len((*lines)[0])
 
@@ -47,38 +46,39 @@ func countActive(lines *[]string, startX int, startY int, startDir int) int {
 	inBounds := func(x int, y int) bool {
 		return x >= 0 && x < width && y >= 0 && y < height
 	}
-	var walk func(int, int, int)
 
-	walk = func(x, y, dir int) {
+	var walk func(int, int, int) int
+	walk = func(x, y, dir int) int {
+		var total int
+
 		for inBounds(x, y) {
 			if visited[y][x][dir] {
 				break
 			}
 			if !visited[y][x][0] && !visited[y][x][1] && !visited[y][x][2] && !visited[y][x][3] {
-				sum++
+				total++
 			}
 			visited[y][x][dir] = true
 
 			dir = getDirection((*lines)[y][x], dir)
 
 			if dir == 4 {
-				walk(x+1, y, 1)
-				walk(x-1, y, 3)
+				total += walk(x+1, y, 1)
+				total += walk(x-1, y, 3)
 				break
 			}
 			if dir == 5 {
-				walk(x, y-1, 0)
-				walk(x, y+1, 2)
+				total += walk(x, y-1, 0)
+				total += walk(x, y+1, 2)
 				break
 			}
 
 			x += directions[dir][0]
 			y += directions[dir][1]
 		}
+		return total
 	}
-	walk(startX, startY, startDir)
-
-	return sum
+	return walk(startX, startY, startDir)
 }
 
 func findOptimal(lines *[]string) int {
