@@ -1,6 +1,8 @@
 package util
 
 const runeToDigitOffset = 48
+const hexOffsetLower = 87
+const hexOffsetUpper = 55
 
 func IsDigit(char rune) bool {
 	return char >= '0' && char <= '9'
@@ -31,6 +33,30 @@ func ParseIntFromString(input *string) int {
 			sum += (int(char) - runeToDigitOffset) * multiplier
 		}
 		multiplier *= 10
+	}
+	if (*input)[0] == '-' {
+		return -sum
+	}
+	return sum
+}
+
+func ParseIntFromHexString(input *string) int {
+	var sum int
+	multiplier := 1
+
+	for i := range *input {
+		char := (*input)[len(*input)-i-1]
+
+		if char >= '1' && char <= '9' {
+			sum += (int(char) - runeToDigitOffset) * multiplier
+		}
+		if char >= 'a' && char <= 'f' {
+			sum += (int(char) - hexOffsetLower) * multiplier
+		}
+		if char >= 'A' && char <= 'F' {
+			sum += (int(char) - hexOffsetUpper) * multiplier
+		}
+		multiplier *= 16
 	}
 	if (*input)[0] == '-' {
 		return -sum

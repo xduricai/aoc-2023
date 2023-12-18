@@ -1,7 +1,6 @@
 package day18
 
 import (
-	"strconv"
 	"time"
 
 	"github.com/xduricai/aoc-2023/util"
@@ -121,31 +120,31 @@ func parsDirections(lines *[]string) []Move {
 func parseColors(lines *[]string) []Move {
 	moves := make([]Move, len((*lines)))
 	var sep int
-	var num int64
+	var num int
 	var color string
 
 	for idx, line := range *lines {
-		sep = util.IndexOfRune(&line, '(')
-		color = line[sep+2 : len(line)-1]
-		num, _ = strconv.ParseInt(color[:len(color)-1], 16, 64)
+		sep = util.IndexOfRune(&line, '#')
+		color = line[sep+1 : len(line)-2]
+		num = util.ParseIntFromHexString(&color)
 
-		moves[idx].dist = int(num)
-		switch color[len(color)-1] {
+		moves[idx].dist = num
+		switch line[len(line)-2] {
 		case '3':
 			moves[idx].dir = 'U'
 			moves[idx].x = 0
-			moves[idx].y = -moves[idx].dist
+			moves[idx].y = -num
 		case '0':
 			moves[idx].dir = 'R'
-			moves[idx].x = moves[idx].dist
+			moves[idx].x = num
 			moves[idx].y = 0
 		case '1':
 			moves[idx].dir = 'D'
 			moves[idx].x = 0
-			moves[idx].y = moves[idx].dist
+			moves[idx].y = num
 		case '2':
 			moves[idx].dir = 'L'
-			moves[idx].x = -moves[idx].dist
+			moves[idx].x = -num
 			moves[idx].y = 0
 		}
 	}
