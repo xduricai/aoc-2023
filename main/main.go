@@ -24,6 +24,7 @@ import (
 	"github.com/xduricai/aoc-2023/day18"
 	"github.com/xduricai/aoc-2023/day19"
 	"github.com/xduricai/aoc-2023/day21"
+	"github.com/xduricai/aoc-2023/day23"
 )
 
 func main() {
@@ -80,8 +81,8 @@ func main() {
 		err = day21.Run()
 	// case "22":
 	// 	err = day22.Run()
-	// case "23":
-	// 	err = day23.Run()
+	case "23":
+		err = day23.Run()
 	// case "24":
 	// 	err = day24.Run()
 	// case "25":
