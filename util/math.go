@@ -2,6 +2,9 @@ package util
 
 import "math"
 
+var MinInt32 int = -2147483648
+var MaxInt32 int = 2147483647
+
 // I stole this from here ^_^: https://siongui.github.io/2017/06/03/go-find-lcm-by-gcd/
 
 // greatest common divisor (GCD) via Euclidean algorithm
